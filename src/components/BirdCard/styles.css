@@ -1,0 +1,20 @@
+.birdcard .card-cont {
+  display: flex;
+}
+
+.birdcard .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 20px;
+}
+
+.birdcard .info h5 {
+  margin: 0;
+}
+.birdcard .info .sciName {
+  font-weight: light;
+  font-size: 15px;
+  color: rgb(100, 100, 100);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

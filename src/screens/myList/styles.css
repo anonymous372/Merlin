@@ -1,0 +1,12 @@
+#mylist .info {
+  margin-left: 20px;
+}
+#mylist .info h5 {
+  margin-left: 0px;
+}
+#mylist .info div.sciName {
+  font-weight: light;
+  font-size: 15px;
+  color: rgb(100, 100, 100);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

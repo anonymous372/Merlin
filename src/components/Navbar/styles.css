@@ -1,0 +1,13 @@
+#navbar {
+  background-color: #293462;
+  padding: 8px 0 4px;
+}
+#navbar a {
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: white;
+}
+
+#navbar .auth a {
+  color: black;
+}
