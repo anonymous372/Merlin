@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
-
+import BirdCard from "../../components/BirdCard2/BirdCard2";
 import "./styles.css";
 import axios from "axios";
 
@@ -28,23 +28,23 @@ function MyList() {
         setLoaded(true);
       });
   }, []);
-  const handleRemove = (birdId) => {
-    const url = "http://localhost:4000/api/birds";
-    const token = localStorage.getItem("token");
+  // const handleRemove = (birdId) => {
+  //   const url = "http://localhost:4000/api/birds";
+  //   const token = localStorage.getItem("token");
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        id: birdId,
-      },
-    };
-    axios
-      .delete(url, config)
-      .then((result) => {
-        window.open("/myList", "_self");
-      })
-      .catch((err) => console.log("Error in deleting bird: ", err));
-  };
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //       id: birdId,
+  //     },
+  //   };
+  //   axios
+  //     .delete(url, config)
+  //     .then((result) => {
+  //       window.open("/myList", "_self");
+  //     })
+  //     .catch((err) => console.log("Error in deleting bird: ", err));
+  // };
   return (
     <div id="mylist">
       <Container style={{ boxShadow: "0 0px 4px black", width: "70vw" }}>
@@ -66,8 +66,9 @@ function MyList() {
           ) : (
             data.map((data, idx) => {
               return (
-                <>
-                  <Row className="my-4">
+                <div key={idx}>
+                  <BirdCard data={data} idx={idx}></BirdCard>
+                  {/* <Row className="my-4">
                     <Col xl={1} lg={1} md={1} sm={1}>
                       <h5 className="mt-3 text-secondary text-center">
                         {idx + 1}
@@ -92,9 +93,9 @@ function MyList() {
                         Remove
                       </button>
                     </Col>
-                  </Row>
+                  </Row> */}
                   <hr style={{ height: "2px" }}></hr>
-                </>
+                </div>
               );
             })
           )}

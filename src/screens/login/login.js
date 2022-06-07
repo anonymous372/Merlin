@@ -25,7 +25,7 @@ function Login() {
 
   return (
     <Container>
-      <h1 className="text-center">Login Screen</h1>
+      <h1 className="text-center">Login</h1>
       <Row className="justify-content-center">
         <Col xs={10} sm={8} md={6} lg={6} xl={4}>
           <Form onSubmit={onLoginSubmit}>
