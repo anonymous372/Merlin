@@ -1,0 +1,22 @@
+#mylist {
+  box-shadow: 0 0 4px black;
+}
+@media screen and (min-width: 990px) {
+  #mylist {
+    width: 70vw;
+    box-shadow: 0 0 4px black;
+  }
+}
+
+#mylist .info {
+  margin-left: 20px;
+}
+#mylist .info h5 {
+  margin-left: 0px;
+}
+#mylist .info div.sciName {
+  font-weight: light;
+  font-size: 15px;
+  color: rgb(100, 100, 100);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
