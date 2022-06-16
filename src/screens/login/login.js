@@ -5,7 +5,8 @@ import axios from "axios";
 function Login() {
   const onLoginSubmit = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:4000/api/login";
+    const baseUrl = "https://merlin-backend.herokuapp.com/";
+    const url = baseUrl + "api/login";
     const loginDetails = {
       username: event.target.username.value,
       password: event.target.password.value,
@@ -13,9 +14,10 @@ function Login() {
 
     // Login User
     const resp = await axios.post(url, loginDetails);
+    // console.log(resp);
     if (!resp.error) {
-      console.log(resp.data.data.token);
       localStorage.setItem("token", resp.data.data.token);
+      localStorage.setItem("userData", resp.data.data.username);
       // Open /products route
       window.open("/", "_self");
     } else {

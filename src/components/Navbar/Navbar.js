@@ -1,76 +1,76 @@
-import "./styles.css";
-import { Container, Row, Col, Dropdown } from "react-bootstrap";
+import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./styles.css";
 
-function Navbar() {
+function Navbar1() {
+  const userData = localStorage.getItem("userData");
   return (
-    <div id="navbar">
+    <Navbar
+      variant="dark"
+      style={{ backgroundColor: "#293462", color: "white" }}
+      expand="lg"
+    >
       <Container>
-        <Row>
-          <Col xs={3} sm={3} md={6} lg={6} xl={8}>
-            <Link to="/" style={{ borderBottom: "2px solid white" }}>
-              Merlin
+        <Navbar.Brand>
+          <Link to="/" className="navLink">
+            Merlin
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            {/* <Nav.Link> */}
+            <Link to="/explore" className="navLink p-2">
+              Explore
             </Link>
-            {/* <a href="/" className="left">
-              Merlin
-            </a> */}
-          </Col>
-
-          <Col xs={5} sm={5} md={3} lg={3} xl={2}>
-            <Row>
-              <Col>
-                <Link to="/explore">Explore</Link>
-
-                {/* <a href="/explore">Explore</a> */}
-              </Col>
-              <Col>
-                <Link to="/myList">My List</Link>
-                {/* <a href="/myList">My List</a> */}
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={4} sm={4} md={3} lg={3} xl={2}>
-            <Dropdown className="auth">
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Login/Sign Up
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                {/* <Container>
-                  <Link to="/login">Login</Link>
-                </Container>
-                <Container>
-                  <Link to="/register">Register</Link>
-                </Container>
-                <Container>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      localStorage.clear();
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </Container> */}
-
-                <Dropdown.Item href="/login">Login</Dropdown.Item>
-                <Dropdown.Item href="/register">Sign Up</Dropdown.Item>
-                <Dropdown.Item
+            {/* </Nav.Link> */}
+            {/* <Nav.Link> */}
+            <Link to="/myList" className="navLink p-2">
+              My List
+            </Link>
+            {/* </Nav.Link> */}
+          </Nav>
+          <Nav>
+            <NavDropdown
+              title={
+                userData != null
+                  ? userData.charAt(0).toUpperCase()
+                  : "Login/Sign Up"
+              }
+              id="basic-nav-dropdown"
+            >
+              {userData != null ? (
+                <NavDropdown.Item
                   href="/"
                   onClick={() => {
                     localStorage.clear();
                   }}
                 >
                   Logout
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-        </Row>
+                </NavDropdown.Item>
+              ) : (
+                <div>
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <NavDropdown.Item href="/register">Sign Up</NavDropdown.Item>
+                </div>
+              )}
+              {/* <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+              <NavDropdown.Item href="/register">Sign Up</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item
+                href="/"
+                onClick={() => {
+                  localStorage.clear();
+                }}
+              >
+                Logout
+              </NavDropdown.Item> */}
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
-      {/* </nav> */}
-    </div>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default Navbar1;

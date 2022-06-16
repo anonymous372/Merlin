@@ -11,3 +11,16 @@
 #navbar .auth a {
   color: black;
 }
+
+.navLink {
+  color: white;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: white;
+}
+
+#basic-nav-dropdown {
+  color: white;
+}

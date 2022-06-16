@@ -5,7 +5,8 @@ import axios from "axios";
 function Register() {
   const onRegisterSubmit = async (event) => {
     event.preventDefault();
-    const url = "http://localhost:4000/api/register";
+    const baseUrl = "https://merlin-backend.herokuapp.com/";
+    const url = baseUrl + "api/register";
     const registerDetails = {
       username: event.target.username.value,
       password: event.target.password.value,
@@ -24,7 +25,7 @@ function Register() {
   };
   return (
     <Container>
-      <h1 className="text-center">Register Screen</h1>
+      <h1 className="text-center">Register</h1>
       <Row className="justify-content-center">
         <Col xs={10} sm={8} md={6} lg={6} xl={4}>
           <Form onSubmit={onRegisterSubmit}>

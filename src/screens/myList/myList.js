@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
+import { Container, Spinner, Row, Col } from "react-bootstrap";
 import BirdCard from "../../components/BirdCard2/BirdCard2";
+import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import axios from "axios";
 
 function MyList() {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [birdsPerPage, setBirdsPerPage] = useState(10);
+
   useEffect(() => {
-    const url = "http://localhost:4000/api/myList";
+    const baseUrl = "https://merlin-backend.herokuapp.com/";
+    const url = baseUrl + "api/myList";
     const token = localStorage.getItem("token");
 
     const config = {
@@ -28,80 +33,92 @@ function MyList() {
         setLoaded(true);
       });
   }, []);
-  // const handleRemove = (birdId) => {
-  //   const url = "http://localhost:4000/api/birds";
-  //   const token = localStorage.getItem("token");
 
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       id: birdId,
-  //     },
-  //   };
-  //   axios
-  //     .delete(url, config)
-  //     .then((result) => {
-  //       window.open("/myList", "_self");
-  //     })
-  //     .catch((err) => console.log("Error in deleting bird: ", err));
-  // };
+  const onRemove = (idx) => {
+    setData((prevState) => {
+      // console.log(prevState);
+      let left = prevState.slice(0, idx);
+      let right = prevState.slice(idx + 1);
+      return [...left, ...right];
+    });
+  };
+
+  const indexOfLastBird = currentPage * birdsPerPage;
+  const indexOfFirstBird = indexOfLastBird - birdsPerPage;
+  const birds = data.slice(indexOfFirstBird, indexOfLastBird);
+
+  // Change Page
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scroll(0, 0);
+  };
+
   return (
-    <div id="mylist">
-      <Container style={{ boxShadow: "0 0px 4px black", width: "70vw" }}>
-        <h2 className="text-secondary">My Bird Watchlist</h2>
-        <Container>
-          {!loaded ? (
-            <Spinner
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-              }}
-              animation="border"
-            />
-          ) : data.length == 0 ? (
-            <h4 className="text-center text-secondary">
-              You don't have any birds in your watchlist
-            </h4>
-          ) : (
-            data.map((data, idx) => {
-              return (
-                <div key={idx}>
-                  <BirdCard data={data} idx={idx}></BirdCard>
-                  {/* <Row className="my-4">
-                    <Col xl={1} lg={1} md={1} sm={1}>
-                      <h5 className="mt-3 text-secondary text-center">
-                        {idx + 1}
-                      </h5>
-                    </Col>
-                    <Col xl={4} lg={5} md={6} sm={8}>
-                      <Image fluid rounded src={data.img} />
-                    </Col>
-                    <Col xl={4} lg={3} md={3} sm={2}>
-                      <div className="info">
-                        <h5 className="my-0">{data.comName}</h5>
-                        <div className="sciName">{data.sciName}</div>
-                      </div>
-                    </Col>
-                    <Col xl={3} lg={3} md={2} sm={12}>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          handleRemove(data._id);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </Col>
-                  </Row> */}
-                  <hr style={{ height: "2px" }}></hr>
-                </div>
-              );
-            })
-          )}
-        </Container>
+    <Container id="mylist">
+      <h2
+        className="text-secondary text-center mb-3"
+        style={{ textDecoration: "underline" }}
+      >
+        My Bird Watchlist
+      </h2>
+      {/* <Row>
+        <Col xs={3}>
+          <span className="text-bold">Birds Per Page </span>
+        </Col>
+        <Col xs={1}>
+          <button
+            className="btn btn-outline-secondary btn-sm"
+            onClick={() => setBirdsPerPage(10)}
+          >
+            10
+          </button>
+        </Col>
+        <Col xs={1}>
+          <button
+            className="btn btn-outline-secondary btn-sm"
+            onClick={() => setBirdsPerPage(20)}
+          >
+            20
+          </button>
+        </Col>
+      </Row> */}
+      <Container>
+        {!loaded ? (
+          <Spinner
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+            }}
+            animation="border"
+          />
+        ) : data.length === 0 ? (
+          <h4 className="text-center text-secondary">
+            You don't have any birds in your watchlist
+          </h4>
+        ) : (
+          birds.map((data, idx) => {
+            return (
+              <div key={idx}>
+                <BirdCard
+                  data={data}
+                  idx={idx + indexOfFirstBird}
+                  removeBird={onRemove}
+                ></BirdCard>
+                <hr style={{ height: "2px" }}></hr>
+              </div>
+            );
+          })
+        )}
       </Container>
-    </div>
+      <Row>
+        <Pagination
+          totalBirds={data.length}
+          birdsPerPage={birdsPerPage}
+          paginate={paginate}
+        ></Pagination>
+      </Row>
+    </Container>
   );
 }
 

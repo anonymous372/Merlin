@@ -1,8 +1,7 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
-
 import Main from "./screens/main/main";
 import Explore from "./screens/explore/explore";
 import MyList from "./screens/myList/myList";

@@ -1,9 +1,14 @@
 #main {
-  width: 80vw;
   box-shadow: 0 0 4px black;
 }
+@media screen and (min-width: 990px) {
+  #main {
+    width: 70vw;
+    box-shadow: 0 0 4px black;
+  }
+}
 #bg-main {
-  width: 90%;
+  width: vmin;
   height: 90vh;
   background-image: url("https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170");
   background-position: center;
@@ -23,7 +28,7 @@
 #main h1 {
   text-shadow: 0 0 2px black;
   margin: 0;
-  font-size: 2.8vw;
+  /* font-size: 2.8vw; */
   font-weight: bold;
   text-align: center;
   color: #c4ddff;
@@ -33,7 +38,7 @@
 #main .info p {
   color: white;
   font-weight: 400;
-  font-size: 20px;
+  font-size: large;
   text-shadow: 2px 2px 2px black;
   opacity: 0;
   animation: fadeIn 1.5s 3s forwards;

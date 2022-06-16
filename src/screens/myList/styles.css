@@ -1,3 +1,13 @@
+#mylist {
+  box-shadow: 0 0 4px black;
+}
+@media screen and (min-width: 990px) {
+  #mylist {
+    width: 70vw;
+    box-shadow: 0 0 4px black;
+  }
+}
+
 #mylist .info {
   margin-left: 20px;
 }
