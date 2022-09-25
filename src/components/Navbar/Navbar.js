@@ -34,9 +34,11 @@ function Navbar1() {
             <NavDropdown
               title={
                 userData != null
-                  ? userData.charAt(0).toUpperCase()
+                  ? userData.charAt(0).toUpperCase() + userData.slice(1, 6)
                   : "Login/Sign Up"
               }
+              style={{ paddingLeft: "8px" }}
+              align="end"
               id="basic-nav-dropdown"
             >
               {userData != null ? (

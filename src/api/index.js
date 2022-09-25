@@ -6,7 +6,6 @@ export const getAllBirds = () => {
   axios
     .get(tempUrl)
     .then((result) => {
-      //   console.log("api getAllBirds", result.data);
       return result.data;
     })
     .catch((err) => {
@@ -14,5 +13,3 @@ export const getAllBirds = () => {
       return [];
     });
 };
-// export const getAllBirds = () => {}
-// export const getAllBirds = () => {}

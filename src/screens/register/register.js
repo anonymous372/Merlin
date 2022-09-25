@@ -1,10 +1,20 @@
+import { useState } from "react";
 import "./styles.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 function Register() {
+  const [loading, setLoading] = useState(false);
+  const [failure, setFailure] = useState(false);
+  const msgText = failure ? "Sign Up Failed" : "Registering your account...";
+  const msgClass = failure ? "message failed" : "message";
+
   const onRegisterSubmit = async (event) => {
     event.preventDefault();
+    if (event.target.password.value != event.target.c_password.value) {
+      window.open("/", "_self");
+      return;
+    }
     const baseUrl = "https://merlin-backend.herokuapp.com/";
     const url = baseUrl + "api/register";
     const registerDetails = {
@@ -12,19 +22,26 @@ function Register() {
       password: event.target.password.value,
     };
 
-    // Login User
-    const resp = await axios.post(url, registerDetails);
-    if (!resp.error) {
-      console.log(resp.data.token);
+    // Register User
+    try {
+      setLoading(true);
+      const resp = await axios.post(url, registerDetails);
+      setLoading(false);
       localStorage.setItem("token", resp.data.token);
-      // Open /products route
+      localStorage.setItem("userData", resp.data.username);
       window.open("/", "_self");
-    } else {
-      console.log("Error in Signing in");
+    } catch (error) {
+      setFailure(true);
+      setTimeout(() => {
+        setLoading(false);
+        setFailure(false);
+      }, 1500);
+      console.log("Error in Sign Up", error);
     }
   };
   return (
     <Container>
+      {loading && <h4 className={msgClass}>{msgText}</h4>}
       <h1 className="text-center">Register</h1>
       <Row className="justify-content-center">
         <Col xs={10} sm={8} md={6} lg={6} xl={4}>
@@ -43,6 +60,14 @@ function Register() {
               <Form.Control
                 type="password"
                 name="password"
+                placeholder="Password"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="c_password"
                 placeholder="Password"
               />
             </Form.Group>

@@ -10,6 +10,7 @@ function MyList() {
   const [loaded, setLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [birdsPerPage, setBirdsPerPage] = useState(10);
+  const userData = localStorage.getItem("userData");
 
   useEffect(() => {
     const baseUrl = "https://merlin-backend.herokuapp.com/";
@@ -36,7 +37,6 @@ function MyList() {
 
   const onRemove = (idx) => {
     setData((prevState) => {
-      // console.log(prevState);
       let left = prevState.slice(0, idx);
       let right = prevState.slice(idx + 1);
       return [...left, ...right];
@@ -56,45 +56,28 @@ function MyList() {
   return (
     <Container id="mylist">
       <h2
-        className="text-secondary text-center mb-3"
-        style={{ textDecoration: "underline" }}
+        className="text-center pt-3 mb-4"
+        style={{ color: "#3A5BA0", fontWeight: 700 }}
       >
-        My Bird Watchlist
+        My Watchlist
       </h2>
-      {/* <Row>
-        <Col xs={3}>
-          <span className="text-bold">Birds Per Page </span>
-        </Col>
-        <Col xs={1}>
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={() => setBirdsPerPage(10)}
-          >
-            10
-          </button>
-        </Col>
-        <Col xs={1}>
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={() => setBirdsPerPage(20)}
-          >
-            20
-          </button>
-        </Col>
-      </Row> */}
       <Container>
         {!loaded ? (
-          <Spinner
+          <div
             style={{
               position: "absolute",
               top: "50%",
               left: "50%",
+              transform: "translate(-50%,-50%)",
             }}
-            animation="border"
-          />
+          >
+            <Spinner animation="border" />
+          </div>
         ) : data.length === 0 ? (
-          <h4 className="text-center text-secondary">
-            You don't have any birds in your watchlist
+          <h4 className="mt-5 text-center" style={{ fontWeight: 400 }}>
+            {userData != null
+              ? "You don't have any birds in your watchlist"
+              : "Sign In to see your watchlist"}
           </h4>
         ) : (
           birds.map((data, idx) => {

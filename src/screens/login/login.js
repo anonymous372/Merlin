@@ -1,8 +1,14 @@
-import "./styles.css";
+import { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import "./styles.css";
 
 function Login() {
+  const [loading, setLoading] = useState(false);
+  const [failure, setFailure] = useState(false);
+  const msgText = failure ? "Login Failed" : "Logging you in...";
+  const msgClass = failure ? "message failed" : "message";
+
   const onLoginSubmit = async (event) => {
     event.preventDefault();
     const baseUrl = "https://merlin-backend.herokuapp.com/";
@@ -11,22 +17,28 @@ function Login() {
       username: event.target.username.value,
       password: event.target.password.value,
     };
-
     // Login User
-    const resp = await axios.post(url, loginDetails);
-    // console.log(resp);
-    if (!resp.error) {
+    try {
+      setLoading(true);
+      const resp = await axios.post(url, loginDetails);
+      setLoading(false);
+
       localStorage.setItem("token", resp.data.data.token);
       localStorage.setItem("userData", resp.data.data.username);
-      // Open /products route
       window.open("/", "_self");
-    } else {
-      console.log("Error in Signing in");
+    } catch (error) {
+      setFailure(true);
+      setTimeout(() => {
+        setLoading(false);
+        setFailure(false);
+      }, 1500);
+      console.log("Error in Login", error);
     }
   };
 
   return (
     <Container>
+      {loading && <h4 className={msgClass}>{msgText}</h4>}
       <h1 className="text-center">Login</h1>
       <Row className="justify-content-center">
         <Col xs={10} sm={8} md={6} lg={6} xl={4}>

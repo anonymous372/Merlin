@@ -1,0 +1,37 @@
+.message {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  text-align: center;
+  width: 80vw;
+  transform: translateY(-50%);
+  color: #18978f;
+  font-weight: 400;
+  background-color: rgb(228, 249, 255);
+  padding: 4px 20px;
+  border-radius: 5px;
+  animation: fadeIn 1s;
+}
+
+@media (min-width: 800px) {
+  .message {
+    width: 40vw;
+    left: 30%;
+  }
+}
+
+.failed {
+  opacity: 0;
+  color: #990000;
+  background-color: rgb(252, 208, 208);
+  animation: fadeIn 2s 0.7s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

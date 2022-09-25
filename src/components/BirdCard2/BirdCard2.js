@@ -1,8 +1,13 @@
 import { Container, Row, Col, Image } from "react-bootstrap";
 import "./styles.css";
 import axios from "axios";
+import { useState } from "react";
 
+// For MY List Screen
 function BirdCard({ data, idx, removeBird }) {
+  const [loading, setLoading] = useState(false);
+
+  // Delete the bird
   const handleRemove = (birdId) => {
     const baseUrl = "https://merlin-backend.herokuapp.com/";
     const url = baseUrl + "api/birds";
@@ -13,17 +18,25 @@ function BirdCard({ data, idx, removeBird }) {
         id: birdId,
       },
     };
+    setLoading(true);
     axios
       .delete(url, config)
       .then((result) => {
         removeBird(idx);
+        setLoading(false);
       })
-      .catch((err) => console.log("Error in deleting bird: ", err));
+      .catch((err) => {
+        console.log("Error in deleting bird: ", err);
+        setLoading(false);
+      });
   };
   const defImg =
     "https://www.allaboutbirds.org/guide/assets/photo/305880301-480px.jpg";
   return (
     <Row className="my-4">
+      {loading && (
+        <h4 className="message_rem">Removing bird from your watchlist</h4>
+      )}
       <Col xl={1} lg={1} md={1} sm={1}>
         <h5 className="mt-3 text-secondary text-center">{idx + 1}</h5>
       </Col>

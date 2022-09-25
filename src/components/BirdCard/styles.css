@@ -18,3 +18,87 @@
   color: rgb(100, 100, 100);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.add_btn {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 6px 12px;
+  font-size: 16px;
+  color: black;
+  border: 2px solid #198754;
+}
+.add_btn:active {
+  transform: scale(0.95);
+  transition: 0.2s;
+}
+.added {
+  color: white;
+  background-color: #198754;
+  transition: 0.4s;
+}
+.message_add {
+  position: fixed;
+  top: 15%;
+  left: 10%;
+  text-align: center;
+  width: 80vw;
+  transform: translateY(-50%);
+  font-weight: 400;
+  color: #18978f;
+  background-color: rgb(228, 249, 255);
+  padding: 4px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1000px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1s;
+  z-index: 2;
+}
+
+@media (min-width: 800px) {
+  .message_add {
+    width: 40vw;
+    left: 30%;
+  }
+}
+
+.birdcard img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.navBtnCont {
+  border-bottom: 2px solid #5f6f94;
+  margin-left: -12px;
+  margin-right: -12px;
+  padding: 0 32px;
+}
+.navPageBtns {
+  padding: 4px 10px;
+  border: none;
+  border: 2px solid #293462;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #181818;
+  background-color: #e2eaff;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.navPageBtns:hover {
+  background-color: #eef1ff;
+}
+.navPageBtns:disabled {
+  color: #5f6f94;
+  background-color: #eef1ff;
+  border-color: #5f6f94;
+}
+
+@media (max-width: 750px) {
+  .navBtnCont {
+    padding: 0 20px;
+  }
+  .navPageBtns {
+    font-size: 14px;
+  }
+}
