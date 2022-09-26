@@ -7,17 +7,14 @@ import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 const BIRDS_PER_PAGE = 10;
+const baseUrl = "https://merlin-backend.herokuapp.com/";
 
 function Explore() {
   const [data, setData] = useState([]);
   const [watched, setWatched] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [birdsPerPage] = useState(BIRDS_PER_PAGE);
-  // #
   const [filterData, setFilterData] = useState([]);
-  const baseUrl = "https://merlin-backend.herokuapp.com/";
-  // #
 
   // Get Data from Server and update the state
   useEffect(() => {
@@ -50,14 +47,13 @@ function Explore() {
     fetchBirds();
   }, []);
 
-  const indexOfLastBird = currentPage * birdsPerPage;
-  const indexOfFirstBird = indexOfLastBird - birdsPerPage;
+  const indexOfLastBird = currentPage * BIRDS_PER_PAGE;
+  const indexOfFirstBird = indexOfLastBird - BIRDS_PER_PAGE;
   const birds = filterData.slice(indexOfFirstBird, indexOfLastBird);
 
   // Change Page
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // window.scroll({ top: 0, left: 0, behavior: "auto" });
     window.scroll(0, 0);
   };
 
@@ -135,7 +131,9 @@ function Explore() {
               </button>
               <button
                 className="navPageBtns"
-                disabled={currentPage === Math.ceil(data.length / birdsPerPage)}
+                disabled={
+                  currentPage === Math.ceil(data.length / BIRDS_PER_PAGE)
+                }
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 Next <BsChevronRight />
@@ -147,7 +145,7 @@ function Explore() {
                   key={idx}
                   idx={indexOfFirstBird + idx}
                   data={val}
-                  watched={isWatched(val.comName)}
+                  watched={() => isWatched(val.comName)}
                 />
               );
             })}
@@ -159,7 +157,7 @@ function Explore() {
             // totalBirds={data.length}
             totalBirds={filterData.length}
             // #
-            birdsPerPage={birdsPerPage}
+            birdsPerPage={BIRDS_PER_PAGE}
             paginate={paginate}
           ></Pagination>
         </Row>

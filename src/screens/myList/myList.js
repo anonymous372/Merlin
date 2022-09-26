@@ -4,13 +4,15 @@ import BirdCard from "../../components/BirdCard2/BirdCard2";
 import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import axios from "axios";
-
+const getUserData = () => {
+  return localStorage.getItem("userData");
+};
 function MyList() {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [birdsPerPage, setBirdsPerPage] = useState(10);
-  const userData = localStorage.getItem("userData");
+  const [userData] = useState(() => getUserData());
 
   useEffect(() => {
     const baseUrl = "https://merlin-backend.herokuapp.com/";
