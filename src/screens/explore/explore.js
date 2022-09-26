@@ -6,6 +6,7 @@ import BirdCard from "../../components/BirdCard/BirdCard";
 import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+import Picture from "../../components/Picture/Picture";
 const BIRDS_PER_PAGE = 10;
 const baseUrl = "https://merlin-backend.herokuapp.com/";
 
@@ -15,7 +16,8 @@ function Explore() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterData, setFilterData] = useState([]);
-
+  const [showPic, setShowPic] = useState(false);
+  const [picData, setPicData] = useState({});
   // Get Data from Server and update the state
   useEffect(() => {
     const url1 = baseUrl + "api/birds";
@@ -146,6 +148,10 @@ function Explore() {
                   idx={indexOfFirstBird + idx}
                   data={val}
                   watched={() => isWatched(val.comName)}
+                  picHandler={{
+                    setShowPic: setShowPic,
+                    setPicData: setPicData,
+                  }}
                 />
               );
             })}
@@ -162,6 +168,7 @@ function Explore() {
           ></Pagination>
         </Row>
       </div>
+      <Picture data={picData} showPic={showPic} setShowPic={setShowPic} />
     </Container>
   );
 }

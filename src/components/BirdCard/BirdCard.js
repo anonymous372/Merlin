@@ -6,7 +6,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 // For Explore Screen
 
-function BirdCard({ data, idx, watched }) {
+function BirdCard({ data, idx, watched, picHandler }) {
   // const [loading, setLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(watched);
@@ -57,7 +57,14 @@ function BirdCard({ data, idx, watched }) {
         {/* Image */}
         <Col xl={4} lg={5} md={6} sm={10}>
           {/* <Image rounded fluid src={data.img || defImg}></Image> */}
-          <LazyLoadImage src={data.img} effect="blur" />
+          <LazyLoadImage
+            src={data.img}
+            effect="blur"
+            onClick={() => {
+              picHandler.setShowPic(true);
+              picHandler.setPicData(data);
+            }}
+          />
         </Col>
         {/* Info */}
         <Col xl={4} lg={3} md={3} sm={12}>
