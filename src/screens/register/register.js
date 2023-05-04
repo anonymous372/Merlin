@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./styles.css";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { BASE_API_URL } from "../../constant";
 
 function Register() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,7 @@ function Register() {
       window.open("/", "_self");
       return;
     }
-    const baseUrl = "https://merlin-backend.herokuapp.com/";
-    const url = baseUrl + "api/register";
+    const url = BASE_API_URL + "api/register";
     const registerDetails = {
       username: event.target.username.value,
       password: event.target.password.value,

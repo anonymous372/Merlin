@@ -42,14 +42,24 @@ function Navbar1() {
               id="basic-nav-dropdown"
             >
               {userData != null ? (
-                <NavDropdown.Item
-                  href="/"
-                  onClick={() => {
-                    localStorage.clear();
-                  }}
-                >
-                  Logout
-                </NavDropdown.Item>
+                <>
+                  <NavDropdown.Item
+                    href="/profile"
+                    style={{
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    href="/"
+                    onClick={() => {
+                      localStorage.clear();
+                    }}
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                </>
               ) : (
                 <div>
                   <NavDropdown.Item href="/login">Login</NavDropdown.Item>

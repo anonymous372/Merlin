@@ -7,8 +7,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import Picture from "../../components/Picture/Picture";
+import { BASE_API_URL } from "../../constant";
 const BIRDS_PER_PAGE = 10;
-const baseUrl = "https://merlin-backend.herokuapp.com/";
 
 function Explore() {
   const [data, setData] = useState([]);
@@ -20,8 +20,8 @@ function Explore() {
   const [picData, setPicData] = useState({});
   // Get Data from Server and update the state
   useEffect(() => {
-    const url1 = baseUrl + "api/birds";
-    const url2 = baseUrl + "api/myList";
+    const url1 = BASE_API_URL + "api/birds";
+    const url2 = BASE_API_URL + "api/myList";
     const token = localStorage.getItem("token") || "";
 
     const config = {

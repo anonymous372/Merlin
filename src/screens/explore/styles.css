@@ -1,9 +1,10 @@
 #explore {
-  box-shadow: 0 0 4px black;
+  box-shadow: 0 0 4px rgb(0, 0, 0, 0.4);
+  background-color: white;
 }
 @media screen and (min-width: 990px) {
   #explore {
     width: 70vw;
-    box-shadow: 0 0 4px black;
+    box-shadow: 0 0 4px rgb(0, 0, 0, 0.4);
   }
 }

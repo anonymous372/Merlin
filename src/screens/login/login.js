@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import "./styles.css";
+import { BASE_API_URL } from "../../constant";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -11,8 +12,7 @@ function Login() {
 
   const onLoginSubmit = async (event) => {
     event.preventDefault();
-    const baseUrl = "https://merlin-backend.herokuapp.com/";
-    const url = baseUrl + "api/login";
+    const url = BASE_API_URL + "api/login";
     const loginDetails = {
       username: event.target.username.value,
       password: event.target.password.value,

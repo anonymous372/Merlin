@@ -4,6 +4,7 @@ import BirdCard from "../../components/BirdCard2/BirdCard2";
 import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import axios from "axios";
+import { BASE_API_URL } from "../../constant";
 const getUserData = () => {
   return localStorage.getItem("userData");
 };
@@ -15,8 +16,7 @@ function MyList() {
   const [userData] = useState(() => getUserData());
 
   useEffect(() => {
-    const baseUrl = "https://merlin-backend.herokuapp.com/";
-    const url = baseUrl + "api/myList";
+    const url = BASE_API_URL + "api/myList";
     const token = localStorage.getItem("token");
 
     const config = {

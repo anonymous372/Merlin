@@ -2,6 +2,7 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import "./styles.css";
 import axios from "axios";
 import { useState } from "react";
+import { BASE_API_URL } from "../../constant";
 
 // For MY List Screen
 function BirdCard({ data, idx, removeBird }) {
@@ -9,8 +10,7 @@ function BirdCard({ data, idx, removeBird }) {
 
   // Delete the bird
   const handleRemove = (birdId) => {
-    const baseUrl = "https://merlin-backend.herokuapp.com/";
-    const url = baseUrl + "api/birds";
+    const url = BASE_API_URL + "api/birds";
     const token = localStorage.getItem("token");
     const config = {
       headers: {

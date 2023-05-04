@@ -4,6 +4,7 @@ import "./styles.css";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { BASE_API_URL } from "../../constant";
 // For Explore Screen
 
 function BirdCard({ data, idx, watched, picHandler }) {
@@ -18,8 +19,7 @@ function BirdCard({ data, idx, watched, picHandler }) {
   // Add Bird to Watchlist
   const handleClick = () => {
     if (added) return;
-    const baseUrl = "https://merlin-backend.herokuapp.com/";
-    const url = baseUrl + "api/birds";
+    const url = BASE_API_URL + "api/birds";
     const token = localStorage.getItem("token");
     const config = {
       headers: {

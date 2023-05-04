@@ -1,5 +1,5 @@
 #main {
-  box-shadow: 0 0 4px black;
+  box-shadow: 0 0 4px rgb(0, 0, 0, 0.4);
 }
 
 #bg-main {
@@ -48,7 +48,7 @@
 @media (min-width: 990px) {
   #main {
     width: 70vw;
-    box-shadow: 0 0 4px black;
+    box-shadow: 0 0 4px rgb(0, 0, 0, 0.4);
   }
   #main div.info {
     width: 70%;
