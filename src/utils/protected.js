@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_API_URL } from "../constant";
 import { Navigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const Protected = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,6 +20,7 @@ const Protected = ({ children }) => {
         setIsLoggedIn(true);
       }
     } catch (error) {
+      localStorage.removeItem("token");
       setIsLoggedIn(false);
     }
     setLoading(false);
@@ -27,7 +29,19 @@ const Protected = ({ children }) => {
   useEffect(() => {
     checkUserLogIn();
   }, []);
-  if (loading) return <h1>Loading...</h1>;
+  if (loading)
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+        }}
+      >
+        <Spinner animation="border" />
+      </div>
+    );
   return <>{isLoggedIn ? children : <Navigate to="/" />}</>;
 };
 

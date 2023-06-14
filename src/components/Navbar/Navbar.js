@@ -23,18 +23,18 @@ function Navbar1() {
             <Link to="/explore" className="navLink p-2">
               Explore
             </Link>
-            {/* </Nav.Link> */}
-            {/* <Nav.Link> */}
             <Link to="/myList" className="navLink p-2">
               My List
             </Link>
-            {/* </Nav.Link> */}
+            <Link to="/users" className="navLink p-2">
+              Users
+            </Link>
           </Nav>
           <Nav>
             <NavDropdown
               title={
                 userData != null
-                  ? userData.charAt(0).toUpperCase() + userData.slice(1, 6)
+                  ? userData.charAt(0).toUpperCase() + userData.slice(1, 10)
                   : "Login/Sign Up"
               }
               style={{ paddingLeft: "8px" }}

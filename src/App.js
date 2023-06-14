@@ -9,6 +9,7 @@ import Login from "./screens/login/login";
 import Register from "./screens/register/register";
 import Profile from "./screens/profile/profile";
 import Protected from "./utils/protected";
+import Users from "./screens/users/users";
 
 function App() {
   return (
@@ -22,6 +23,14 @@ function App() {
             element={
               <Protected>
                 <Profile />
+              </Protected>
+            }
+          />
+          <Route
+            path="users"
+            element={
+              <Protected>
+                <Users />
               </Protected>
             }
           />
