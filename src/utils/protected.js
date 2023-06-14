@@ -21,6 +21,7 @@ const Protected = ({ children }) => {
       }
     } catch (error) {
       localStorage.removeItem("token");
+      localStorage.removeItem("userData");
       setIsLoggedIn(false);
     }
     setLoading(false);
