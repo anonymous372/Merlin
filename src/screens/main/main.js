@@ -3,8 +3,8 @@ import "./styles.css";
 
 function Main() {
   return (
-    <Container id="main">
-      <div id="bg-main">
+    <div id="main" className="container">
+      <div className="bg-main w-[vmin] h-[90vh]">
         <div className="info">
           <h1 className="main-head">This is Merlin</h1>
           <p>
@@ -13,7 +13,7 @@ function Main() {
           </p>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
 

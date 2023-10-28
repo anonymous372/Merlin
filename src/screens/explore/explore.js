@@ -7,7 +7,8 @@ import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import Picture from "../../components/Picture/Picture";
-import { BASE_API_URL } from "../../constant";
+import { BASE_API_URL, color_list } from "../../constant";
+import { cloneDeep, orderBy, sortBy } from "lodash";
 const BIRDS_PER_PAGE = 10;
 
 function Explore() {
@@ -18,6 +19,8 @@ function Explore() {
   const [filterData, setFilterData] = useState([]);
   const [showPic, setShowPic] = useState(false);
   const [picData, setPicData] = useState({});
+  const [colors, setColors] = useState([]);
+
   // Get Data from Server and update the state
   useEffect(() => {
     const url1 = BASE_API_URL + "api/birds";
@@ -38,7 +41,7 @@ function Explore() {
         setFilterData(result1.data);
 
         const result2 = await axios.get(url2, config);
-        setWatched(result2.data);
+        if (result2.data) setWatched(result2.data);
 
         setLoading(false);
       } catch (error) {
@@ -77,16 +80,51 @@ function Explore() {
     });
     return flag;
   };
+
+  const handleColorClick = (color) => {
+    if (!colors.find((col) => col == color)) {
+      setColors([...colors, color]);
+    } else {
+      setColors([
+        ...colors.slice(
+          0,
+          colors.findIndex((x) => x == color)
+        ),
+        ...colors.slice(colors.findIndex((x) => x == color) + 1),
+      ]);
+    }
+  };
+  useEffect(() => {
+    if (colors.length === 0) return;
+    setCurrentPage(1);
+    let tempData = cloneDeep(data);
+    for (let col of colors) {
+      for (let brd of tempData) {
+        if (!("count" in brd)) brd.count = 0;
+        if (brd.colors.find((cl) => cl == col)) {
+          brd.count += 1;
+        }
+      }
+    }
+    tempData = orderBy(tempData, ["count"], ["desc"]);
+    tempData = tempData.filter((val) => val.count != 0);
+
+    console.log(colors);
+    console.log([...tempData.map((x) => x.comName)]);
+    setFilterData(tempData);
+  }, [colors]);
   return (
     <Container id="explore">
+      {/* Heading */}
       <h2
-        className="text-center pt-3 mb-4"
+        className="text-center pt-3 mb-4 text-3xl"
         style={{ color: "#3A5BA0", fontWeight: 700 }}
       >
         Birds of Delhi
       </h2>
+      {/* Search Bar */}
       <div className="d-flex justify-content-end">
-        <Col lg={4} md={6} xs={12}>
+        <Col xl={4} lg={6} md={6} xs={12}>
           <Form className="d-flex">
             <Form.Control
               onChange={(e) => handleChange(e)}
@@ -96,9 +134,29 @@ function Explore() {
               aria-label="Search"
             />
           </Form>
+          {/* Color list */}
+          <div className="rounded-md  border-2 border-gray-300 py-1 my-2 flex md:justify-start justify-center">
+            <div className="w-100 flex md:gap-2 gap-0 justify-around">
+              {color_list.map((color) => {
+                return (
+                  <div
+                    key={color}
+                    style={{ backgroundColor: color }}
+                    onClick={() => handleColorClick(color)}
+                    className={`${
+                      colors.find((x) => x == color)
+                        ? "border-4 border-blue-500"
+                        : "border-2 border-gray-500"
+                    } w-6 h-6 rounded-full`}
+                  ></div>
+                );
+              })}
+            </div>
+          </div>
         </Col>
       </div>
       <div>
+        {/* Spinner Animation */}
         {loading ? (
           <div
             style={{
@@ -111,6 +169,7 @@ function Explore() {
             <Spinner animation="border" />
           </div>
         ) : data.length === 0 ? (
+          // No Data
           <>
             <h4
               className="text-center mt-3"
@@ -123,6 +182,7 @@ function Explore() {
           </>
         ) : (
           <div>
+            {/* Navigator Buttons */}
             <div className="navBtnCont d-flex justify-content-between pt-2 pb-3">
               <button
                 className="navPageBtns"
@@ -141,6 +201,7 @@ function Explore() {
                 Next <BsChevronRight />
               </button>
             </div>
+            {/* Birds List*/}
             {birds.map((val, idx) => {
               return (
                 <BirdCard
@@ -157,6 +218,7 @@ function Explore() {
             })}
           </div>
         )}
+        {/* Page Navigation */}
         <Row>
           <Pagination
             // #

@@ -63,7 +63,7 @@ function MyList() {
       >
         My Watchlist
       </h2>
-      <Container>
+      <div>
         {!loaded ? (
           <div
             style={{
@@ -95,7 +95,7 @@ function MyList() {
             );
           })
         )}
-      </Container>
+      </div>
       <Row>
         <Pagination
           totalBirds={data.length}

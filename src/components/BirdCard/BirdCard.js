@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
-import "./styles.css";
+import "./card_styles.css";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { BASE_API_URL } from "../../constant";
-// For Explore Screen
 
+import { color_list } from "../../constant";
+// For Explore Screen
 function BirdCard({ data, idx, watched, picHandler }) {
   // const [loading, setLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(watched);
-
+  const [colors, setColors] = useState([]);
   useEffect(() => {
     setAdded(watched);
   }, [watched]);
@@ -41,23 +42,66 @@ function BirdCard({ data, idx, watched, picHandler }) {
         setLoading(false);
       });
   };
+  const handleColorClick = (color) => {
+    if (!colors.find((col) => col == color)) {
+      setColors([...colors, color]);
+    } else {
+      setColors([
+        ...colors.slice(
+          0,
+          colors.findIndex((x) => x == color)
+        ),
+        ...colors.slice(colors.findIndex((x) => x == color) + 1),
+      ]);
+    }
+    console.log(colors);
+  };
+
+  const handleUpdateColors = () => {
+    if (loading) return;
+    const url = BASE_API_URL + "api/birds/colors";
+    // const token = localStorage.getItem("token");
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // };
+    setLoading(true);
+    axios
+      .put(url, { birdID: data._id, colors: colors })
+      .then((result) => {
+        if (result.status == 200) {
+          console.log(`Updated ${data.comName}'s colors`);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
   const defImg =
     "https://www.allaboutbirds.org/guide/assets/photo/305880301-480px.jpg";
   return (
-    <Container className="birdcard">
+    <>
+      {/* Toast for Adding bird */}
       {loading && (
-        <h4 className="message_add">Adding bird to your watchlist</h4>
+        <h4 className="message_toast px-[20px] py-[4px] text-center bg-green-100 text-green-700 text-xl w-4/5 md:w-2/5 fixed top-[15%] left-[10%] md:left-[30%] translate-y-[-50%] rounded z-10">
+          Adding bird to your watchlist
+        </h4>
       )}
-      <Row className="my-4">
+      <div className="flex my-6 flex-wrap md:flex-nowrap">
         {/* Index */}
-        <Col xl={1} lg={1} md={1} sm={1} className="idx-index">
-          <h5 className="mt-3 text-secondary text-center">{idx + 1}</h5>
-        </Col>
-        {/* Image */}
-        <Col xl={4} lg={5} md={6} sm={10}>
-          {/* <Image rounded fluid src={data.img || defImg}></Image> */}
+        <div className="px-[12px] bg-gray-50 basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
+          <div className="text-center mt-[16px] mb-2 text-lg text-gray-600 font-semibold">
+            {idx + 1}
+          </div>
+        </div>
+        {/* Bird Image */}
+        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12">
           <LazyLoadImage
+            className="rounded"
             src={data.img}
             effect="blur"
             onClick={() => {
@@ -65,27 +109,58 @@ function BirdCard({ data, idx, watched, picHandler }) {
               picHandler.setPicData(data);
             }}
           />
-        </Col>
-        {/* Info */}
-        <Col xl={4} lg={3} md={3} sm={12}>
-          <div className="info">
-            <h5 className="text-center">{data.comName}</h5>
-            <div className="sciName text-center">{data.sciName}</div>
+        </div>
+        {/* Bird Name */}
+        <div className="px-[12px] bg-red-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
+          <div className="text-xl text-center font-semibold">
+            {data.comName}
           </div>
-        </Col>
+          <div className="text-md text-zinc-500 text-center">
+            {data.sciName}{" "}
+          </div>
+        </div>
         {/* Button */}
-        <Col xl={3} lg={3} md={2} sm={12} className="my-3 text-center">
-          <button
-            className={added ? "add_btn added" : "add_btn"}
-            onClick={handleClick}
-          >
-            {/* {btnText} */}
-            {added ? "Bird Watched" : "Add to Watchlist"}
-          </button>
-        </Col>
-      </Row>
+        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-2/12 lg:basis-3/12 xl:basis-3/12">
+          <div className="my-[16px] text-center">
+            <button
+              className={`outline-none border-2 border-green-700 rounded-md px-[12px] py-[6px] text-md ${
+                added ? "bg-green-700 text-white" : "bg-white text-black"
+              }`}
+              onClick={handleClick}
+            >
+              {added ? "Bird Watched" : "Add to Watchlist"}
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* <div className="flex justify-between">
+        <div className="flex gap-4">
+          {color_list.map((color) => {
+            return (
+              <div
+                key={color}
+                style={{ backgroundColor: color }}
+                onClick={() => handleColorClick(color)}
+                className={`${
+                  data.colors?.find((x) => x == color)
+                    ? "border-4 border-green-500"
+                    : colors.find((x) => x == color)
+                    ? "border-4 border-blue-500"
+                    : "border-2 border-gray-500"
+                } w-10 h-10 rounded-full`}
+              ></div>
+            );
+          })}
+        </div>
+        <div
+          onClick={handleUpdateColors}
+          className="bg-green-500 px-4 py-1 font-bold text-white rounded"
+        >
+          {loading ? "Loading..." : "Update"}
+        </div>
+      </div> */}
       <hr style={{ height: "2px" }}></hr>
-    </Container>
+    </>
   );
 }
 

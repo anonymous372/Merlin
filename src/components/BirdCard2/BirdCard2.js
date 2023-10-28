@@ -1,6 +1,7 @@
 import { Container, Row, Col, Image } from "react-bootstrap";
 import "./styles.css";
 import axios from "axios";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useState } from "react";
 import { BASE_API_URL } from "../../constant";
 
@@ -33,33 +34,49 @@ function BirdCard({ data, idx, removeBird }) {
   const defImg =
     "https://www.allaboutbirds.org/guide/assets/photo/305880301-480px.jpg";
   return (
-    <Row className="my-4">
+    <>
+      {/* Toast for Adding bird */}
       {loading && (
-        <h4 className="message_rem">Removing bird from your watchlist</h4>
+        <h4 className="message_toast px-[20px] py-[4px] text-center bg-red-100 text-red-700 text-xl w-4/5 md:w-1/2 fixed top-[15%] left-[10%] md:left-[25%] translate-y-[-50%] rounded z-10">
+          Removing bird from your watchlist
+        </h4>
       )}
-      <Col xl={1} lg={1} md={1} sm={1}>
-        <h5 className="mt-3 text-secondary text-center">{idx + 1}</h5>
-      </Col>
-      <Col xl={4} lg={5} md={6} sm={10}>
-        <Image fluid rounded src={data.img || defImg} />
-      </Col>
-      <Col xl={4} lg={3} md={3} sm={12}>
-        <div className="info">
-          <h5 className="text-center">{data.comName}</h5>
-          <div className="sciName text-center">{data.sciName}</div>
+      <div className="flex my-6 flex-wrap md:flex-nowrap">
+        {/* Index */}
+        <div className="px-[12px] bg-gray-50 basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
+          <div className="text-center mt-[16px] mb-2 text-lg text-gray-600 font-semibold">
+            {idx + 1}
+          </div>
         </div>
-      </Col>
-      <Col xl={3} lg={3} md={2} sm={12} className="my-3 text-center">
-        <button
-          className="btn btn-danger"
-          onClick={() => {
-            handleRemove(data._id);
-          }}
-        >
-          Remove
-        </button>
-      </Col>
-    </Row>
+        {/* Bird Image */}
+        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12">
+          <LazyLoadImage className="rounded" src={data.img} effect="blur" />
+        </div>
+        {/* Bird Name */}
+        <div className="px-[12px] bg-red-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
+          <div className="text-xl text-center font-semibold">
+            {data.comName}
+          </div>
+          <div className="text-md text-zinc-500 text-center">
+            {data.sciName}{" "}
+          </div>
+        </div>
+        {/* Button */}
+        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-2/12 lg:basis-3/12 xl:basis-3/12">
+          <div className="my-[16px] text-center">
+            <button
+              className={`outline-none text-white bg-red-600 rounded-md px-[12px] py-[6px] text-md`}
+              onClick={() => {
+                handleRemove(data._id);
+              }}
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr style={{ height: "2px" }}></hr>
+    </>
   );
 }
 
