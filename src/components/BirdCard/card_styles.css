@@ -1,0 +1,52 @@
+.birdcard .card-cont {
+  display: flex;
+}
+
+.birdcard .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 20px;
+}
+
+.birdcard .info h5 {
+  margin: 0;
+}
+.birdcard .info .sciName {
+  font-weight: light;
+  font-size: 15px;
+  color: rgb(100, 100, 100);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.add_btn {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 6px 12px;
+  font-size: 16px;
+  color: black;
+  border: 2px solid #198754;
+}
+.add_btn:active {
+  transform: scale(0.95);
+  transition: 0.2s;
+}
+.added {
+  color: white;
+  background-color: #198754;
+  transition: 0.4s;
+}
+
+/* @media (min-width: 800px) {
+  .message_add {
+    width: 40vw;
+    left: 30%;
+  }
+} */
+
+/* .birdcard img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+} */

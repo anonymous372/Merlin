@@ -11,7 +11,9 @@ const Picture = ({ data, showPic, setShowPic }) => {
   return (
     <div className={classes.picture}>
       <img src={formatImage(data.img)}></img>
-      <h1>{data.comName || "Pic not found"}</h1>
+      <h1 className="font-semibold text-4xl">
+        {data.comName || "Pic not found"}
+      </h1>
       <BsXLg
         className={classes.close}
         onClick={() => setShowPic(false)}
