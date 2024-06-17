@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
+// import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
 import "./card_styles.css";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { BASE_API_URL } from "../../constant";
 
-import { color_list } from "../../constant";
 // For Explore Screen
-function BirdCard({ data, idx, watched, picHandler }) {
+function ExploreBirdCard({ data, idx, watched, picHandler }) {
   // const [loading, setLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(watched);
@@ -99,7 +98,7 @@ function BirdCard({ data, idx, watched, picHandler }) {
           </div>
         </div>
         {/* Bird Image */}
-        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12">
+        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-5/12 lg:basis-5/12 xl:basis-4/12">
           <LazyLoadImage
             className="rounded"
             src={data.img}
@@ -120,19 +119,21 @@ function BirdCard({ data, idx, watched, picHandler }) {
           </div>
         </div>
         {/* Button */}
-        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-2/12 lg:basis-3/12 xl:basis-3/12">
+        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-3/12">
           <div className="my-[16px] text-center">
             <button
-              className={`outline-none border-2 border-green-700 rounded-md px-[12px] py-[6px] text-md ${
-                added ? "bg-green-700 text-white" : "bg-white text-black"
+              className={`outline-none hover:bg-red-700 hover:text-white border-2 border-green-700 rounded-full px-4 py-[6px] text-md ${
+                added ? "bg-green-700 text-white" : "bg-white text-black "
               }`}
               onClick={handleClick}
+              title={added ? "Watched Bird" : "Add to watchlist"}
             >
-              {added ? "Bird Watched" : "Add to Watchlist"}
+              {added ? "Watched" : "Add"}
             </button>
           </div>
         </div>
       </div>
+      {/* Color bar to update colors of a bird */}
       {/* <div className="flex justify-between">
         <div className="flex gap-4">
           {color_list.map((color) => {
@@ -164,4 +165,4 @@ function BirdCard({ data, idx, watched, picHandler }) {
   );
 }
 
-export default BirdCard;
+export default ExploreBirdCard;

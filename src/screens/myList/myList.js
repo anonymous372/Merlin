@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Spinner, Row, Col } from "react-bootstrap";
-import BirdCard from "../../components/BirdCard2/BirdCard2";
+import MyListBirdCard from "../../components/MyListBirdCard/MyListBirdCard";
 import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import axios from "axios";
@@ -58,7 +58,7 @@ function MyList() {
   return (
     <Container id="mylist">
       <h2
-        className="text-center pt-3 mb-4"
+        className="text-center pt-3 mb-4 text-3xl"
         style={{ color: "#3A5BA0", fontWeight: 700 }}
       >
         My Watchlist
@@ -85,11 +85,11 @@ function MyList() {
           birds.map((data, idx) => {
             return (
               <div key={idx}>
-                <BirdCard
+                <MyListBirdCard
                   data={data}
                   idx={idx + indexOfFirstBird}
                   removeBird={onRemove}
-                ></BirdCard>
+                ></MyListBirdCard>
                 <hr style={{ height: "2px" }}></hr>
               </div>
             );
