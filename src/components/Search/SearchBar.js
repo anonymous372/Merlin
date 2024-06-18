@@ -1,11 +1,22 @@
 import { BsX } from "react-icons/bs";
-const SearchBar = ({ query, setQuery }) => {
+import { useSelector, useDispatch } from "react-redux";
+import { SET_COLORS_FILTER, SET_SEARCH_QUERY } from "../../store/actionType";
+import { actions } from "../../store";
+
+const SearchBar = () => {
+  const dispatch = useDispatch();
+  const search_query = useSelector((state) => state.search_query);
+
   const handleQueryChange = (e) => {
-    const value = e.target.value.toLowerCase();
-    setQuery(value);
+    // If search query entered clear color filters
+    dispatch(actions[SET_COLORS_FILTER]([]));
+
+    const value = e.target.value;
+    dispatch(actions[SET_SEARCH_QUERY](value));
   };
+
   const clearQuery = () => {
-    setQuery("");
+    dispatch(actions[SET_SEARCH_QUERY](""));
   };
 
   return (
@@ -21,7 +32,7 @@ const SearchBar = ({ query, setQuery }) => {
         }
         onChange={handleQueryChange}
         placeholder={"Search Eg. Sparrow"}
-        value={query}
+        value={search_query}
       ></input>
       <BsX className="h-8 w-8" onClick={clearQuery}></BsX>
     </div>

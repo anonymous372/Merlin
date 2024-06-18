@@ -12,6 +12,7 @@ import { BASE_API_URL, color_list } from "../../constant";
 import { cloneDeep, orderBy } from "lodash";
 import ColorBar from "../../components/ColorBar/ColorBar";
 import FilterPanel from "../../components/FilterPanel/FilterPanel";
+import { useSelector } from "react-redux";
 const BIRDS_PER_PAGE = 10;
 
 function Explore() {
@@ -22,9 +23,13 @@ function Explore() {
   const [filterData, setFilterData] = useState([]);
   const [showPic, setShowPic] = useState(false);
   const [picData, setPicData] = useState({});
-  const [colors, setColors] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [colors, setColors] = useState([]);
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  // const [searchQuery, setSearchQuery] = useState("");
+
+  // Redux state
+  const searchQuery = useSelector((state) => state.search_query);
+  const colors = useSelector((state) => state.colors);
 
   // Get Data from Server and update the state
   useEffect(() => {
@@ -61,7 +66,9 @@ function Explore() {
   useEffect(() => {
     setCurrentPage(1);
     setFilterData(
-      data.filter((val) => val.comName.toLowerCase().includes(searchQuery))
+      data.filter((val) =>
+        val.comName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
   }, [searchQuery]);
 
@@ -85,20 +92,6 @@ function Explore() {
     return flag;
   };
 
-  const handleColorClick = (color) => {
-    if (!colors.find((col) => col == color)) {
-      setColors([...colors, color]);
-    } else {
-      setColors([
-        ...colors.slice(
-          0,
-          colors.findIndex((x) => x == color)
-        ),
-        ...colors.slice(colors.findIndex((x) => x == color) + 1),
-      ]);
-    }
-  };
-
   // Filter list on change of colors
   useEffect(() => {
     if (colors.length === 0) {
@@ -118,8 +111,6 @@ function Explore() {
     tempData = orderBy(tempData, ["count"], ["desc"]);
     tempData = tempData.filter((val) => val.count != 0);
 
-    console.log(colors);
-    console.log([...tempData.map((x) => x.comName)]);
     setFilterData(tempData);
   }, [colors]);
   return (
@@ -139,10 +130,9 @@ function Explore() {
       <div className="d-flex justify-content-end">
         <Col xl={4} lg={6} md={6} xs={12}>
           {/* Search Bar */}
-          <SearchBar query={searchQuery} setQuery={setSearchQuery}></SearchBar>
+          <SearchBar />
 
           {/* Color Bar */}
-          <ColorBar colors={colors} setColors={setColors}></ColorBar>
         </Col>
       </div>
       <div>
