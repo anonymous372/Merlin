@@ -13,7 +13,7 @@ import Users from "./screens/users/users";
 
 function App() {
   return (
-    <div id="app">
+    <div id="app" className="mt-[56px]">
       <BrowserRouter>
         <Navbar />
         <Routes>

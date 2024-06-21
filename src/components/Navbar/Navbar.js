@@ -92,7 +92,7 @@ function Navbar1() {
     //   </Container>
     // </Navbar>
     <>
-      <div className="w-full h-14 bg-merlin">
+      <div className="fixed top-0 z-30 w-full h-14 bg-merlin">
         <div className="h-full py-3 px-8 mx-auto xl:max-w-screen-2xl max-w-screen-lg w-full text-white flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-5 items-center">

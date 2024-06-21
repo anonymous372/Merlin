@@ -78,7 +78,7 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(true)}
           className={`${
             is_filters_applied && "text-blue-800 "
-          } absolute top-[80px] cursor-pointer right-4 rounded drop-shadow-lg bg-gray-100 hover:text-blue-800 active:scale-95`}
+          } z-20 fixed top-[80px] cursor-pointer right-4 rounded drop-shadow-lg bg-gray-100 hover:text-blue-800 active:scale-95`}
         >
           <div className="relative">
             <BsFilterSquare className="h-8 w-8" />
@@ -93,7 +93,7 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
         <>
           <div
             ref={filterPanelRef}
-            className="rounded-lg absolute top-[80px] right-0 w-full h-full box-border max-w-md max-h-[calc(100%-120px)] backdrop-filter backdrop-blur-[6px] bg-opacity-20 bg-gray-300 border"
+            className="z-20 rounded-lg fixed top-[56px] right-0 w-full h-full box-border sm:max-w-md max-h-[calc(100%-120px)] backdrop-filter backdrop-blur-[6px] bg-opacity-30 bg-opacity-50 md:bg-opacity-30 bg-gray-400 border"
           >
             {/* Header of Filter Panel */}
             <div className="px-2 py-2 w-full flex justify-between items-center pb-2 border-b-[1px] border-gray-400">
@@ -111,14 +111,14 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
                 is_filters_applied
                   ? "cursor-pointer opacity-100"
                   : "cursor-default opacity-0"
-              } text-center transition duration-500 transition active:scale-95 px-2 border-b-[3px] rounded-b bg-red-800 bg-opacity-70 text-white font-semibold`}
+              } text-center transition duration-500 transition active:scale-95 px-2 border-b-[2px] rounded-b-md bg-red-800 bg-opacity-70 text-white font-semibold`}
               onClick={handleClearFilters}
             >
               Clear All Filters
             </div>
             <div className="mt-2">
               {/* Search Bar */}
-              <div className="pl-6 pr-2 mb-10 pb-8 border-b-[3px] border-gray-400">
+              <div className="pl-6 pr-2 mb-10 pb-8 border-b-[3px] border-gray-400 md:border-gray-400">
                 <div className="font-bold text-[18px] mb-1">Search</div>
                 <SearchBar query={""} setQuery={() => {}} />
               </div>
@@ -132,11 +132,11 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
               </div>
               {/* Size Bar */}
               <div className="pl-6 pr-2 mb-2">
-                {/* Hading */}
+                {/* Heading */}
                 <div className="font-semibold text-[18px] mb-1">
                   Search By Size:
                   {selected_bird_size >= 0 && (
-                    <span className="ml-4 bg-opacity-70 bg-blue-800 text-white text-sm border-1 border-gray-500 font-semibold px-[3px] rounded">
+                    <span className="ml-4 bg-opacity-70 bg-blue-800 text-white text-sm border-1 px-1 pb-[2px] border-gray-100 md:border-gray-500 font-semibold px-[3px] rounded">
                       {bird_size_list_text[selected_bird_size]}
                     </span>
                   )}
@@ -154,19 +154,20 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
                       <>
                         <div
                           key={bird_size_info}
-                          className={`cursor-pointer group relative h-6 w-6 rounded-full border-3 border-slate-400 ${
+                          className={`cursor-pointer group bg-white relative h-6 w-6 rounded-full border-3 border-slate-400 md:border-slate-400 ${
                             idx == selected_bird_size
                               ? "bg-blue-400"
-                              : "bg-white bg-opacity-10"
+                              : "bg-white bg-opacity-50"
                           }`}
                           onClick={() => handleSizeSelect(idx)}
                         >
                           <span
-                            className={`${
-                              idx == selected_bird_size
-                                ? "top-[calc(100%+6px)] border-1 border-gray-900 font-bold px-[3px] rounded"
-                                : "hidden group-hover:block top-[calc(100%+8px)] px-[4px] rounded text-white bg-gray-600 bg-opacity-50"
-                            } absolute top-[calc(100%+4px)] -translate-x-1/2 text-sm whitespace-nowrap`}
+                            className="hidden group-hover:block top-[calc(100%+8px)] px-[4px] rounded text-white bg-gray-600 bg-opacity-50 absolute top-[calc(100%+4px)] -translate-x-1/2 text-sm whitespace-nowrap"
+                            // className={`${
+                            //   idx == selected_bird_size
+                            //     ? "top-[calc(100%+6px)] border-1 border-gray-900 font-bold px-[3px] rounded"
+                            //     : "hidden group-hover:block top-[calc(100%+8px)] px-[4px] rounded text-white bg-gray-600 bg-opacity-50"
+                            // } absolute top-[calc(100%+4px)] -translate-x-1/2 text-sm whitespace-nowrap`}
                           >
                             {bird_size_info}
                           </span>
