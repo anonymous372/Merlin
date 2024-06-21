@@ -43,17 +43,17 @@ function MyListBirdCard({ data, idx, removeBird }) {
       )}
       <div className="flex my-6 md:flex-nowrap flex-wrap">
         {/* Index */}
-        <div className="px-[12px] bg-gray-50 basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
+        <div className="px-[12px] basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
           <div className="text-center mt-[16px] mb-2 text-lg text-gray-600 font-semibold">
             {idx + 1}
           </div>
         </div>
         {/* Bird Image */}
-        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-5/12 lg:basis-5/12 xl:basis-4/12">
+        <div className="px-[12px] basis-full sm:basis-10/12 md:basis-5/12 lg:basis-5/12 xl:basis-4/12">
           <LazyLoadImage className="rounded" src={data.img} effect="blur" />
         </div>
         {/* Bird Name */}
-        <div className="px-[12px] bg-red-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
+        <div className="px-[12px] basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
           <div className="text-xl text-center font-semibold">
             {data.comName}
           </div>
@@ -62,7 +62,7 @@ function MyListBirdCard({ data, idx, removeBird }) {
           </div>
         </div>
         {/* Button */}
-        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-3/12">
+        <div className="px-[12px] basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-3/12">
           <div className="my-[16px] text-center">
             <button
               className={`transition duration-300 border-2 border-red-500 rounded-full text-red-500 hover:text-white hover:bg-red-500 px-4 py-[6px] text-md`}
