@@ -1,6 +1,10 @@
 import { BsX } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
-import { SET_COLORS_FILTER, SET_SEARCH_QUERY } from "../../store/actionType";
+import {
+  SET_COLORS_FILTER,
+  SET_SEARCH_QUERY,
+  SET_SIZE_FILTER,
+} from "../../store/actionType";
 import { actions } from "../../store";
 
 const SearchBar = () => {
@@ -10,6 +14,7 @@ const SearchBar = () => {
   const handleQueryChange = (e) => {
     // If search query entered clear color filters
     dispatch(actions[SET_COLORS_FILTER]([]));
+    dispatch(actions[SET_SIZE_FILTER](-1));
 
     const value = e.target.value;
     dispatch(actions[SET_SEARCH_QUERY](value));

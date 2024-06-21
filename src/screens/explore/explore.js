@@ -30,6 +30,7 @@ function Explore() {
   // Redux state
   const searchQuery = useSelector((state) => state.search_query);
   const colors = useSelector((state) => state.colors);
+  const birdSize = useSelector((state) => state.bird_size);
 
   // Get Data from Server and update the state
   useEffect(() => {
@@ -94,25 +95,27 @@ function Explore() {
 
   // Filter list on change of colors
   useEffect(() => {
-    if (colors.length === 0) {
-      setFilterData(data);
-      return;
-    }
-    setCurrentPage(1);
+    if (searchQuery) return;
     let tempData = cloneDeep(data);
-    for (let col of colors) {
-      for (let brd of tempData) {
-        if (!("count" in brd)) brd.count = 0;
-        if (brd.colors.find((cl) => cl == col)) {
-          brd.count += 1;
+    if (colors.length != 0) {
+      for (let col of colors) {
+        for (let brd of tempData) {
+          if (!("count" in brd)) brd.count = 0;
+          if (brd.colors.find((cl) => cl == col)) {
+            brd.count += 1;
+          }
         }
       }
+      tempData = orderBy(tempData, ["count"], ["desc"]);
+      tempData = tempData.filter((val) => val.count != 0);
     }
-    tempData = orderBy(tempData, ["count"], ["desc"]);
-    tempData = tempData.filter((val) => val.count != 0);
-
+    if (birdSize >= 0) {
+      tempData = tempData.filter((val) => val.birdSize == birdSize);
+    }
+    setCurrentPage(1);
     setFilterData(tempData);
-  }, [colors]);
+  }, [colors, birdSize]);
+
   return (
     <Container id="explore">
       <FilterPanel
