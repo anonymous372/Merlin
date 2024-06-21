@@ -58,7 +58,7 @@ function MyList() {
   return (
     <Container id="mylist">
       <h2
-        className="text-center pt-3 mb-4 text-3xl"
+        className="text-center pt-3 mb-16 text-3xl"
         style={{ color: "#3A5BA0", fontWeight: 700 }}
       >
         My Watchlist
