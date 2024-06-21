@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container, Spinner, Row, Col, Form, Button } from "react-bootstrap";
 import axios from "axios";
 
-import BirdCard from "../../components/BirdCard/BirdCard";
+import ExploreBirdCard from "../../components/ExploreBirdCard/ExploreBirdCard";
+import SearchBar from "../../components/Search/SearchBar";
 import Pagination from "../../components/Pagination/Pagination";
 import "./styles.css";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import Picture from "../../components/Picture/Picture";
 import { BASE_API_URL, color_list } from "../../constant";
-import { cloneDeep, orderBy, sortBy } from "lodash";
+import { cloneDeep, orderBy } from "lodash";
+import ColorBar from "../../components/ColorBar/ColorBar";
+import FilterPanel from "../../components/FilterPanel/FilterPanel";
+import { useSelector } from "react-redux";
 const BIRDS_PER_PAGE = 10;
 
 function Explore() {
@@ -19,7 +23,14 @@ function Explore() {
   const [filterData, setFilterData] = useState([]);
   const [showPic, setShowPic] = useState(false);
   const [picData, setPicData] = useState({});
-  const [colors, setColors] = useState([]);
+  // const [colors, setColors] = useState([]);
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  // const [searchQuery, setSearchQuery] = useState("");
+
+  // Redux state
+  const searchQuery = useSelector((state) => state.search_query);
+  const colors = useSelector((state) => state.colors);
+  const birdSize = useSelector((state) => state.bird_size);
 
   // Get Data from Server and update the state
   useEffect(() => {
@@ -52,6 +63,16 @@ function Explore() {
     fetchBirds();
   }, []);
 
+  // Filter list on changes in search bar query
+  useEffect(() => {
+    setCurrentPage(1);
+    setFilterData(
+      data.filter((val) =>
+        val.comName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery]);
+
   const indexOfLastBird = currentPage * BIRDS_PER_PAGE;
   const indexOfFirstBird = indexOfLastBird - BIRDS_PER_PAGE;
   const birds = filterData.slice(indexOfFirstBird, indexOfLastBird);
@@ -60,15 +81,6 @@ function Explore() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scroll(0, 0);
-  };
-
-  // Handle Change in Search Bar
-  const handleChange = (e) => {
-    const qry = e.target.value.toLowerCase();
-    setCurrentPage(1);
-    setFilterData(
-      data.filter((val) => val.comName.toLowerCase().includes(qry))
-    );
   };
 
   // Finds wheather a bird is watched or not
@@ -81,40 +93,35 @@ function Explore() {
     return flag;
   };
 
-  const handleColorClick = (color) => {
-    if (!colors.find((col) => col == color)) {
-      setColors([...colors, color]);
-    } else {
-      setColors([
-        ...colors.slice(
-          0,
-          colors.findIndex((x) => x == color)
-        ),
-        ...colors.slice(colors.findIndex((x) => x == color) + 1),
-      ]);
-    }
-  };
+  // Filter list on change of colors
   useEffect(() => {
-    if (colors.length === 0) return;
-    setCurrentPage(1);
+    if (searchQuery) return;
     let tempData = cloneDeep(data);
-    for (let col of colors) {
-      for (let brd of tempData) {
-        if (!("count" in brd)) brd.count = 0;
-        if (brd.colors.find((cl) => cl == col)) {
-          brd.count += 1;
+    if (colors.length != 0) {
+      for (let col of colors) {
+        for (let brd of tempData) {
+          if (!("count" in brd)) brd.count = 0;
+          if (brd.colors.find((cl) => cl == col)) {
+            brd.count += 1;
+          }
         }
       }
+      tempData = orderBy(tempData, ["count"], ["desc"]);
+      tempData = tempData.filter((val) => val.count != 0);
     }
-    tempData = orderBy(tempData, ["count"], ["desc"]);
-    tempData = tempData.filter((val) => val.count != 0);
-
-    console.log(colors);
-    console.log([...tempData.map((x) => x.comName)]);
+    if (birdSize >= 0) {
+      tempData = tempData.filter((val) => val.birdSize == birdSize);
+    }
+    setCurrentPage(1);
     setFilterData(tempData);
-  }, [colors]);
+  }, [colors, birdSize]);
+
   return (
     <Container id="explore">
+      <FilterPanel
+        isOpen={isFilterMenuOpen}
+        setIsOpen={setIsFilterMenuOpen}
+      ></FilterPanel>
       {/* Heading */}
       <h2
         className="text-center pt-3 mb-4 text-3xl"
@@ -125,34 +132,10 @@ function Explore() {
       {/* Search Bar */}
       <div className="d-flex justify-content-end">
         <Col xl={4} lg={6} md={6} xs={12}>
-          <Form className="d-flex">
-            <Form.Control
-              onChange={(e) => handleChange(e)}
-              type="search"
-              placeholder="Search Eg. Sparrow"
-              className="me-2"
-              aria-label="Search"
-            />
-          </Form>
-          {/* Color list */}
-          <div className="rounded-md  border-2 border-gray-300 py-1 my-2 flex md:justify-start justify-center">
-            <div className="w-100 flex md:gap-2 gap-0 justify-around">
-              {color_list.map((color) => {
-                return (
-                  <div
-                    key={color}
-                    style={{ backgroundColor: color }}
-                    onClick={() => handleColorClick(color)}
-                    className={`${
-                      colors.find((x) => x == color)
-                        ? "border-4 border-blue-500"
-                        : "border-2 border-gray-500"
-                    } w-6 h-6 rounded-full`}
-                  ></div>
-                );
-              })}
-            </div>
-          </div>
+          {/* Search Bar */}
+          <SearchBar />
+
+          {/* Color Bar */}
         </Col>
       </div>
       <div>
@@ -204,7 +187,7 @@ function Explore() {
             {/* Birds List*/}
             {birds.map((val, idx) => {
               return (
-                <BirdCard
+                <ExploreBirdCard
                   key={idx}
                   idx={indexOfFirstBird + idx}
                   data={val}

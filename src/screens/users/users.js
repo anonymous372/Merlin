@@ -55,7 +55,12 @@ const Users = () => {
   return (
     <Container>
       <div className={styles.container}>
-        <h2 className={styles.heading}>Our Birdies</h2>
+        <h2
+          className="text-center mb-10 text-3xl"
+          style={{ color: "#3A5BA0", fontWeight: 700 }}
+        >
+          Our Birdies
+        </h2>
         <div className={styles.user_list}>
           {users.map((user) => {
             return (

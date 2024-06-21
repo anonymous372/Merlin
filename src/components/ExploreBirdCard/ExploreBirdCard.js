@@ -1,18 +1,22 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
+// import { Container, Row, Col, Image, Spinner } from "react-bootstrap";
 import "./card_styles.css";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { BASE_API_URL } from "../../constant";
+import { BASE_API_URL, bird_size_list_id } from "../../constant";
 
-import { color_list } from "../../constant";
 // For Explore Screen
-function BirdCard({ data, idx, watched, picHandler }) {
-  // const [loading, setLoading] = useState(true);
+function ExploreBirdCard({ data, idx, watched, picHandler }) {
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(watched);
   const [colors, setColors] = useState([]);
+  const [size, setSize] = useState(-1);
+
+  useEffect(() => {
+    setSize(data.birdSize);
+  }, [data]);
+
   useEffect(() => {
     setAdded(watched);
   }, [watched]);
@@ -81,6 +85,26 @@ function BirdCard({ data, idx, watched, picHandler }) {
       });
   };
 
+  const updateBirdSize = (birdSizeId) => {
+    if (loading) return;
+    const url = BASE_API_URL + `api/birds/size`;
+
+    setLoading(true);
+    axios
+      .put(url, { birdID: data._id, birdSize: birdSizeId })
+      .then((result) => {
+        if (result.status == 200) {
+          console.log(`Updated ${data.comName}'s size`);
+          setSize(birdSizeId);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   const defImg =
     "https://www.allaboutbirds.org/guide/assets/photo/305880301-480px.jpg";
   return (
@@ -93,13 +117,13 @@ function BirdCard({ data, idx, watched, picHandler }) {
       )}
       <div className="flex my-6 flex-wrap md:flex-nowrap">
         {/* Index */}
-        <div className="px-[12px] bg-gray-50 basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
+        <div className="px-[12px]  basis-full sm:basis-1/12 md:basis-1/12 lg:basis-1/12 xl:basis-1/12">
           <div className="text-center mt-[16px] mb-2 text-lg text-gray-600 font-semibold">
             {idx + 1}
           </div>
         </div>
         {/* Bird Image */}
-        <div className="px-[12px] bg-blue-50 basis-full sm:basis-10/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12">
+        <div className="px-[12px] basis-full sm:basis-10/12 md:basis-5/12 lg:basis-5/12 xl:basis-4/12">
           <LazyLoadImage
             className="rounded"
             src={data.img}
@@ -111,7 +135,7 @@ function BirdCard({ data, idx, watched, picHandler }) {
           />
         </div>
         {/* Bird Name */}
-        <div className="px-[12px] bg-red-50 basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
+        <div className="px-[12px] basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-4/12">
           <div className="text-xl text-center font-semibold">
             {data.comName}
           </div>
@@ -120,19 +144,21 @@ function BirdCard({ data, idx, watched, picHandler }) {
           </div>
         </div>
         {/* Button */}
-        <div className="px-[12px] bg-green-50 basis-full sm:basis-full md:basis-2/12 lg:basis-3/12 xl:basis-3/12">
+        <div className="px-[12px] basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-3/12">
           <div className="my-[16px] text-center">
             <button
-              className={`outline-none border-2 border-green-700 rounded-md px-[12px] py-[6px] text-md ${
-                added ? "bg-green-700 text-white" : "bg-white text-black"
+              className={`outline-none hover:bg-red-700 hover:text-white border-2 border-green-700 rounded-full px-4 py-[6px] text-md ${
+                added ? "bg-green-700 text-white" : "bg-white text-black "
               }`}
               onClick={handleClick}
+              title={added ? "Watched Bird" : "Add to watchlist"}
             >
-              {added ? "Bird Watched" : "Add to Watchlist"}
+              {added ? "Watched" : "Add"}
             </button>
           </div>
         </div>
       </div>
+      {/* Color bar to update colors of a bird */}
       {/* <div className="flex justify-between">
         <div className="flex gap-4">
           {color_list.map((color) => {
@@ -159,9 +185,27 @@ function BirdCard({ data, idx, watched, picHandler }) {
           {loading ? "Loading..." : "Update"}
         </div>
       </div> */}
+
+      {/* Update Bird Size of birds */}
+      {/* <div className="flex gap-4">
+        {bird_size_list_id.map((id) => {
+          return (
+            <>
+              <div
+                onClick={() => updateBirdSize(id)}
+                className={`${
+                  size === id ? "border-green-500" : ""
+                } h-10 w-10 cursor-pointer hover:bg-gray-100 flex items-center justify-center font-bold border-2 rounded`}
+              >
+                {id}
+              </div>
+            </>
+          );
+        })}
+      </div> */}
       <hr style={{ height: "2px" }}></hr>
     </>
   );
 }
 
-export default BirdCard;
+export default ExploreBirdCard;
