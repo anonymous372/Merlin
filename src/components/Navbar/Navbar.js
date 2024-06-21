@@ -183,9 +183,12 @@ const AuthDropdown = ({ closeDropdown, userData }) => {
       {isOpen && (
         <div className="mt-2 flex flex-col gap-1 rounded font-semibold text-gray-800 w-100 bg-white p-2">
           {userData != null ? (
-            <Link to="/" onClick={close}>
-              Logout
-            </Link>
+            <>
+              <Link to="/profile">Profile</Link>
+              <Link to="/" onClick={close}>
+                Logout
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login" onClick={close}>
@@ -231,9 +234,12 @@ const AuthFloatingDropdown = ({ closeDropdown, userData }) => {
       {isOpen && (
         <div className="z-50 top-[100%] right-0 w-32 mt-2 z-100 absolute white border flex flex-col gap-1 rounded font-semibold text-gray-800 p-2">
           {userData != null ? (
-            <Link to="/" onClick={close}>
-              Logout
-            </Link>
+            <>
+              <Link to="/profile">Profile</Link>
+              <Link to="/" onClick={close}>
+                Logout
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login" onClick={close}>
