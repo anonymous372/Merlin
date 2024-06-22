@@ -147,7 +147,7 @@ function ExploreBirdCard({ data, idx, watched, picHandler }) {
         <div className="px-[12px] basis-full sm:basis-full md:basis-3/12 lg:basis-3/12 xl:basis-3/12">
           <div className="my-[16px] text-center">
             <button
-              className={`outline-none hover:bg-red-700 hover:text-white border-2 border-green-700 rounded-full px-4 py-[6px] text-md ${
+              className={`outline-none hover:text-white border-2 border-green-700 rounded-full px-4 py-[6px] text-md ${
                 added ? "bg-green-700 text-white" : "bg-white text-black "
               }`}
               onClick={handleClick}

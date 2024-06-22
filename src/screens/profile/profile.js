@@ -54,7 +54,7 @@ const Profile = ({}) => {
     );
   return (
     <Container>
-      <div class={styles.container}>
+      <div className={styles.container}>
         {/* Username */}
         <h2 className={styles.username}>
           {username.charAt(0).toUpperCase() + username.slice(1)}
@@ -84,7 +84,7 @@ const Profile = ({}) => {
           <h3 className="text-center mb-3">Recently watched birds</h3>
           {recentBirds.map((bird) => {
             return (
-              <div className={styles.birdRow}>
+              <div key={bird.comName} className={styles.birdRow}>
                 <img
                   src={bird.img}
                   alt={bird.comName}

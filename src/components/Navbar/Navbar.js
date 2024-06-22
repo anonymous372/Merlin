@@ -1,18 +1,31 @@
 // import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GoTriangleDown } from "react-icons/go";
 
 function Navbar1() {
   const userData = localStorage.getItem("userData");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navbarRef = useRef(null);
 
   const closeDropdown = () => {
     setIsMenuOpen(false);
   };
 
+  const handleClickOutside = (e) => {
+    if (navbarRef.current && !navbarRef.current.contains(e.target)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  });
   return (
     // <Navbar
     //   variant="dark"
@@ -92,7 +105,8 @@ function Navbar1() {
     //   </Container>
     // </Navbar>
     <>
-      <div className="fixed top-0 z-30 w-full h-14 bg-merlin">
+      <div ref={navbarRef} className="fixed top-0 z-30 w-full h-14 bg-merlin">
+        {/* Navbar for Desktop */}
         <div className="h-full py-3 px-8 mx-auto xl:max-w-screen-2xl max-w-screen-lg w-full text-white flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-5 items-center">
@@ -125,7 +139,7 @@ function Navbar1() {
             </div>
           </div>
         </div>
-        {/* Dropdown menu */}
+        {/* Dropdown menu [Mobile] */}
         {isMenuOpen && (
           <div className="grow_animation w-full h-auto flex md:hidden">
             <div
@@ -207,6 +221,7 @@ const AuthDropdown = ({ closeDropdown, userData }) => {
 
 const AuthFloatingDropdown = ({ closeDropdown, userData }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef(null);
   const close = () => {
     setIsOpen(false);
     closeDropdown();
@@ -220,8 +235,23 @@ const AuthFloatingDropdown = ({ closeDropdown, userData }) => {
       return !prev;
     });
   };
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="relative">
+    <div ref={modalRef} className="relative">
       <div
         className="flex gap-2 items-center cursor-pointer"
         onClick={handleOpen}
@@ -235,7 +265,9 @@ const AuthFloatingDropdown = ({ closeDropdown, userData }) => {
         <div className="z-50 top-[100%] right-0 w-32 mt-2 z-100 absolute white border flex flex-col gap-1 rounded font-semibold text-gray-800 p-2">
           {userData != null ? (
             <>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile" onClick={() => setIsOpen(false)}>
+                Profile
+              </Link>
               <Link to="/" onClick={close}>
                 Logout
               </Link>

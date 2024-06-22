@@ -154,7 +154,7 @@ const FilterPanel = ({ isOpen, setIsOpen }) => {
                       <>
                         <div
                           key={bird_size_info}
-                          className={`cursor-pointer group bg-white relative h-6 w-6 rounded-full border-3 border-slate-400 md:border-slate-400 ${
+                          className={`cursor-pointer group relative h-6 w-6 rounded-full border-3 border-slate-400 md:border-slate-400 ${
                             idx == selected_bird_size
                               ? "bg-blue-400"
                               : "bg-white bg-opacity-50"
